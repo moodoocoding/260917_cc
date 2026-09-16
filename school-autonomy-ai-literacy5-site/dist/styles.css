@@ -1,0 +1,105 @@
+:root {
+  --surface: #25282d;
+  --paper-width: min(960px, calc(100vw - 40px));
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--surface); }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: #111;
+  background: var(--surface);
+  font-family: "Batang", "KoPub Batang", serif;
+}
+
+.document { padding: 32px 20px 72px; }
+
+.page-shell {
+  --scale: 1;
+  width: var(--paper-width);
+  height: calc(841px * var(--scale));
+  margin: 0 auto 26px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, .38);
+}
+
+.page-canvas {
+  position: relative;
+  width: 595px;
+  height: 841px;
+  overflow: hidden;
+  background: white;
+  transform: scale(var(--scale));
+  transform-origin: 0 0;
+}
+
+.generated-page {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transform: translateY(-50px);
+}
+
+.page-vectors {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 595px;
+  height: 841px;
+  pointer-events: none;
+}
+
+.generated-page div {
+  color: #111;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.generated-page .check {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 2px;
+  border: 1px solid #8d9298;
+  background: #fff;
+  vertical-align: baseline;
+}
+
+.generated-page .check.checked::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 4px;
+  height: 7px;
+  border: solid #111;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 640px) {
+  :root { --paper-width: calc(100vw - 16px); }
+  .document { padding: 8px 8px 40px; }
+  .page-shell { margin-bottom: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.35); }
+}
+
+@media print {
+  @page { size: A4; margin: 0; }
+  html, body { background: white; }
+  .document { padding: 0; }
+  .page-shell {
+    --scale: 1.33333 !important;
+    width: 210mm;
+    height: 297mm !important;
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+  .page-shell:last-child { break-after: auto; }
+}
